@@ -47,7 +47,38 @@ print(result)  # Output: HELLO!!!
 
 ```
 ## Ví dụ 3
+```
+def choose_operation(operator):
+  if operator == "+":
+    return lambda x, y: x + y  # Return an anonymous function for addition
+  elif operator == "-":
+    return lambda x, y: x - y  # Return an anonymous function for subtraction
+  else:
+    raise ValueError("Invalid operator")
 
+add = choose_operation("+")
+subtract = choose_operation("-")
+
+print(add(5, 3))  # Output: 8
+print(subtract(7, 2))  # Output: 5
+
+```
+
+## Ví dụ 4
+
+```
+def square(x):
+  return x * x
+
+def cube(x):
+  return x * x * x
+
+functions = [square, cube]  # Store functions in a list
+
+for func in functions:
+  print(func(3))  # Output: 9, 27 (iterating through functions)
+
+```
 # Decorators
 
 ## Decorator là gì?
