@@ -4,7 +4,7 @@ Decorator được xây dựng dựa trên nguyên tắc "hàm và lớp là nh�
 
 # First-class object
 
-Khái niệm về First-class và second-class objects lần đầu được giới thiệu bởi  Christopher Strachey vào những năm 1960, và vẫn được áp dụng trong các ngôn ngữ lập trình cho tới hiện nay, ví dụ như Kotlin, Swift, PHP, Python, JavaScript, Rust, ... . Nhìn chung, các ngôn ngữ lập trình đặt ra những hạn chế(restrictions) về cách chúng ta có thể thao tác với các phần tử tính toán. Phần tử với ít hạn chế nhất sẽ được coi là first-class. Sau đây là 4 đặc tính phổ biến khi nói về first-class object:
+Khái niệm về First-class và second-class objects lần đầu được giới thiệu bởi  Christopher Strachey vào những năm 1960, và vẫn được áp dụng trong các ngôn ngữ lập trình cho tới hiện nay, ví dụ như Kotlin, Swift, PHP, Python, JavaScript, Rust, ... . Nhìn chung, các ngôn ngữ lập trình đặt ra những hạn chế(restrictions) về cách chúng ta có thể thao tác với các phần tử tính toán. Phần tử với ít hạn chế nhất sẽ được coi là first-class. Sau đây là 4 đặc tính phổ biến khi nói về first-class objects:
 
 - Có thể được gán cho một biến,
 - Có thể được truyền làm đối số cho hàm,
@@ -22,7 +22,7 @@ Xét ví dụ:
 
 Theo Guido van Rossum, người sáng tạo ra Python, mọi objects trong Python (integers, strings, functions, classes, ...) đều là first-class, và đều có những "đặc quyền" như nhau.
 
-Để hiểu hơn về 4 "đặc quyền" của 1 first-class object, hạn hãy theo dõi những ví dụ bên dưới. Mình sẽ tập trung cụ thể vào first-class function, đối tượng chính tạo nên **Decorator**.
+Để hiểu hơn về 4 "đặc quyền" của 1 first-class object, bạn hãy theo dõi những ví dụ bên dưới, nơi mình sẽ tập trung cụ thể vào **first-class function**, đối tượng chính tạo nên **Decorator**.
 
 ## Ví dụ 1
 ```
@@ -31,8 +31,16 @@ def greeter(name):
 
 greet = greeter  # Assign function to variable
 
-greet("Alice")  # Call the function using the variable
+greet("Rossum")  # Call the function using the variable
 
+```
+
+Tương tự như gán 1 giá trị cho 1 biến: `x=1`, ta có thể gán 1 hàm cho 1 biến. Điều này sẽ tạo tham chiếu tới object *greeter*, với 1 địa chỉ cụ thể trong bộ nhớ.
+```
+>>> print(hex(id(greeter))) # get address of a Python object
+0x21e76758d30
+>>> print(hex(id(1)))
+0x21e70a56930
 ```
 ## Ví dụ 2
 ```
