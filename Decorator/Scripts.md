@@ -1,16 +1,21 @@
 Decorator là một khái niệm intermediate hoặc advanced trong Python, cung cấp khả năng mở rộng hoặc thay đổi hành vi của các hàm hoặc lớp mà không cần phải chỉnh sửa mã nguồn của chúng. 
 
-Decorator được xây dựng dựa trên nguyên tắc "hàm và lớp là những First class objects" trong Python. Trước hết, ta hãy cùng tìm hiểu về First-class objects.
+Decorator được xây dựng dựa trên nguyên tắc "hàm và lớp là những First class objects" trong Python. Trước hết, ta hãy cùng tìm hiểu về First-class   objects.
 
-# First-class object
+# First-class objects
 
-Khái niệm về First-class và second-class objects lần đầu được giới thiệu bởi  Christopher Strachey vào những năm 1960, và vẫn được áp dụng trong các ngôn ngữ lập trình cho tới hiện nay, ví dụ như Kotlin, Swift, PHP, Python, JavaScript, Rust, ... . Nhìn chung, các ngôn ngữ lập trình đặt ra những hạn chế(restrictions) về cách chúng ta có thể thao tác với các phần tử tính toán. Phần tử với ít hạn chế nhất sẽ được coi là first-class. Sau đây là 4 đặc tính phổ biến khi nói về first-class objects:
+Khái niệm về First-class objects lần đầu được giới thiệu bởi  Christopher Strachey vào những năm 1960, và vẫn được áp dụng trong các ngôn ngữ lập trình cho tới hiện nay, ví dụ như Kotlin, Swift, PHP, Python, JavaScript, Rust, ... . Nhìn chung, các ngôn ngữ lập trình đặt ra những hạn chế (restrictions) về cách chúng ta có thể thao tác với các phần tử (đối tượng/object) tính toán. Phần tử với ít hạn chế nhất sẽ được coi là first-class. Sau đây là 4 đặc tính phổ biến khi nói về first-class objects:
 
 - Có thể được gán cho một biến,
 - Có thể được truyền làm đối số cho hàm,
 - Có thể được trả về từ hàm,
 - Có thể được lưu trữ trong các cấu trúc dữ liệu.
 
+Chi tiết hơn các bạn có thể tham khảo tại [đây](https://www.cs.iusb.edu/~dvrajito/teach/c311/c311_2_firstclass.html).
+
+Trong các ngôn ngữ lập trình hàm như JavaScripts, PHP, Python, Go, Swift, hàm được coi là những first-class object. Tuy nhiên, trong một ngôn ngữ lập trình hàm khác là C++, hàm không phải là first-class object, mà được  coi là second-class object (một khái niệm ít phổ biến hơn) bởi nó không thể được biên dịch tại thời gian chạy. Bảng sau cho thấy sự khác biệt cơ bản giữa các classes (cấp bậc) của objects trong các ngôn ngữ lập trình:
+
+![Classes of value in programming languages](https://images.viblo.asia/99ed0c14-a305-41cf-aee6-c0ebda8e7221.png)
 
 ## First-class objects trong Python: 
 Hiểu đơn giản, một object đại diện cho một giá trị mà một biến có thể tham chiếu đến.
@@ -79,7 +84,38 @@ print(list(double_numbers))
 ```
 [2, 4, 6, 8, 10]
 ```
+Thay vì sử dụng built-in functions nhàm chán như ```map``` hay ```filter```, hãy xét 1 ví dụ thú vị sau đây, với hàm bậc cao tự định nghĩa, nhận 1 hàm làm đối số:
 
+```python 
+import random
+def track_the_timeline (action, current_batman=''):
+    """
+    track the timeline of Batman before and after Barry
+    went back in time to do {action}.
+    """
+    print(f"Before Barry went back in time to {action.__name__}, Batman was {current_batman}." )
+    current_batman = action()
+    print(f"After Barry went back in time to {action.__name__}, Batman is {current_batman}.")
+
+def save_mom():
+    print("Barry saved his mom and changed the timeline.")   
+    batman_variants = ["Bruce Wayne", "Thomas Wayne", "Jason Todd", "Dick Grayson", "Jim Gordon"]
+    return random.choice(batman_variants)
+
+current_batman = "Bruce Wayne"
+current_batman = track_the_timeline(save_mom, current_batman)
+```
+
+
+``` 
+Before Barry went back in time to save_mom, Batman was Bruce Wayne.
+Barry saved his mom and changed the timeline.
+After Barry went back in time to save_mom, Batman is Thomas Wayne.
+```
+Ở ví dụ trên, ta đã sử dụng hàm ```track_the_timeline``` để theo dõi sự thay đổi của lịch sử khi The Flash Barry Allen - người hùng của chúng ta quay ngược thời gian để cứu mẹ của mình.  Cụ thể hơn, ta muốn biết danh tính của Kỵ sĩ Bóng đêm Batman trước và sau khi Barry thay đổi lịch sử. 
+Do vậy, ta truyền hàm (hành động) ```save_mom``` vào hàm ```track_the_timeline``` như một đối số, và ```current_batman``` để theo dõi danh tính của Batman trước và sau khi "hành động" này được thực hiện.
+
+Như vậy, ta đã thấy 3 ví dụ về việc truyền hàm như đối số cho hàm khác. Vói việc coi hàm như một first-class object, Python cho phép ta sử dụng hàm linh hoạt hơn, giúp giảm lặp code và tăng khả năng tái sử dụng code.
 
 ## Ví dụ 3: Trả về từ hàm
 ```python
@@ -120,20 +156,18 @@ print(doubler)
 ```
 
 ```>>> <function scale.<locals>.inner at 0x0000021E767DD310>```
-Để hiểu rõ hơn về 1 higher orden function nhận 1 hàm làm đối số truyền vào, hãy cùng xem qua ví dụ sau, thay vì sử dụng 1 built-in function là ```map``` như trên, ta sẽ tự viết 1 hàm.
 
-```python
-def higher_function(func, param):
 
-```
+
 ## Closure
 Ngoài ra, hàm ```scale``` còn được gọi là __enclosing function__, tức là hàm chứa 1 hàm khác.
-Ngược lại, một __nested (inner) function__ là một hàm được định nghĩa bên trong hàm khác. __Closure__, trường hợp đặc biệt của _nested function_, là một hàm có tham chiếu đến một giá trị được khai báo bên trong _enclosing function_, có quyền truy cập đến tài nguyên trong scope nó thuộc về. Ở ví dụ trên, mặc dù ```factor``` không nằm trong phạm vi của hàm ```inner```, nhưng lại thuộc scope chứa ```inner```, do vậy ta có thể truy cập ```factor``` bên trong ```inner``` một cách bình thường.
+Ngược lại, một __nested (inner) function__ là một hàm được định nghĩa bên trong hàm khác. __Closure__, trường hợp đặc biệt của _nested function_, là một hàm có tham chiếu đến một giá trị được khai báo bên trong _enclosing function_, có quyền truy cập đến tài nguyên trong scope nó thuộc về. 
+Ở ví dụ trên, ```inner``` là 1 closure. Mặc dù ```factor``` không nằm trong phạm vi của hàm ```inner```, nhưng lại thuộc scope chứa ```inner```, do vậy ta có thể truy cập ```factor``` bên trong ```inner``` một cách bình thường.
 
 
 
 ## Ví dụ 4: Lưu trữ trong các cấu trúc dữ liệu.
-
+Là 1 first-class object, hàm trong Python có thể được lưu trữ trong các cấu trúc dữ liệu như list, tuple, dictionary, set, ... .
 ```
 def square(x):
   return x * x
@@ -160,13 +194,7 @@ __Như vậy__, qua 4 ví dụ trên, chúng ta đã hiểu được thế nào 
 ## Decorator là gì?
 Như đã đề cập ở đầu bài viết, _decorators_ cung cấp khả năng thay đổi hoặc mở rộng hành vi của các hàm hoặc lớp mà không cần phải chỉnh sửa mã nguồn của chúng.  
 
-Vậy làm thế nào để thay đổi hành vi của một hàm mà không 
 
-
-
-Ví dụ từ closure --> decorator
-
-Thêm đối số vào decorator (lý do cần decorator)
 
 ## Function decorator
 
@@ -193,6 +221,8 @@ Tăng tốc Python với numba
  https://en.wikipedia.org/wiki/First-class_citizen
 
  Programming Language Pragmatics, Second Edition 3.5.2 First- and Second-Class Subroutines
+
+ [First Class Objects](https://www.cs.iusb.edu/~dvrajito/teach/c311/c311_2_firstclass.html)
 
  [Structure and Interpretation of Computer Programs](https://mitp-content-server.mit.edu/books/content/sectbyfn/books_pres_0/6515/sicp.zip/full-text/book/book-Z-H-12.html#footnote_Temp_121:~:text=%60%60rights%20and%20privileges%27%27%20of%20first%2Dclass%20elements) 
 
